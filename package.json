@@ -1,6 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
+  "type": "module",
   "description": "Утилиту командной строки page-loader, которая, скачивает страницу из сети и кладёт в указанную директорию (по умолчанию в директорию запуска программы).",
   "bin": {
     "page-loader": "bin/pageLoader.js"
