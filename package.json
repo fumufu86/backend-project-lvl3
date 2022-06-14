@@ -35,5 +35,8 @@
     "jest-cli": "^28.1.1",
     "prettier": "^2.6.2",
     "simple-git-hooks": "^2.8.0"
+  },
+  "dependencies": {
+    "commander": "^9.3.0"
   }
 }
