@@ -1,6 +1,8 @@
 #!/usr/bin/env node
-import program from 'commander';
+import { Command } from 'commander';
 import loader from '../index.js';
+
+const program = new Command();
 
 program
   .version('0.0.1')
