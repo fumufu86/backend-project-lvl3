@@ -1,5 +1,5 @@
-const loader = (name) => {
-  const test = `Hello ${name}`;
+const loader = (url) => {
+  const test = `test ${url}`;
   return test;
 };
 

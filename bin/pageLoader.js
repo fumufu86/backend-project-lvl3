@@ -7,6 +7,7 @@ const program = new Command();
 program
   .version('0.0.1')
   .description('Http page downloader')
-  .arguments('<name>')
-  .action((name) => console.log(loader(name)));
-program.parse();
+  .arguments('<url>')
+  .option('-o, --output [dir]', 'output dir', process.cwd())
+  .action((url) => console.log(loader(url, program.output)))
+  .parse(process.argv);
