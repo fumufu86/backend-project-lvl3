@@ -9,5 +9,6 @@ program
   .description('Http page downloader')
   .arguments('<url>')
   .option('-o, --output [dir]', 'output dir', process.cwd())
-  .action((url) => console.log(loader(url, program.output)))
+  .action((url) => loader(url, program.output)
+    .then(({ fullOutputPath }) => console.log(`Page was successfully downloaded into '${fullOutputPath}'`)))
   .parse(process.argv);
