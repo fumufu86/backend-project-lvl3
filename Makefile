@@ -1,15 +1,15 @@
 install: install-deps
-        npx simple-git-hooks
+	npx simple-git-hooks
 
 install-deps:
-        npm ci
+	npm ci
 
 lint:
-        npx eslint .
+	npx eslint .
 test:
-        npm test
+	npm test
 
 test-coverage:
-        npm test -- --coverage --coverageProvider=v8
+	npm test -- --coverage --coverageProvider=v8
 
 .PHONY: test
