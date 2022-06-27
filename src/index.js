@@ -3,7 +3,7 @@ import path from 'path';
 import axios from 'axios';
 import cheerio from 'cheerio';
 
-import { makeName } from './utils.js';
+import makeName from './utils.js';
 
 const fsp = fs.promises;
 
@@ -18,14 +18,8 @@ const pageLoader = (url, outputPath = process.cwd()) => {
   const htmlFilePath = path.join(fullOutputPath, htmlFileName);
 
   return fsp.access(fullOutputPath)
-    .then(() => {
-      return axios.get(url);
-    })
-    .then((page) => {
-      // console.log(page);
-      // console.log(page.data);
-      return page.data;
-    })
+    .then(() => axios.get(url))
+    .then((page) => page.data)
     .then((htmlFile) => {
       // console.log(cheerio.load(htmlFile).html());
       const $ = cheerio.load(htmlFile);

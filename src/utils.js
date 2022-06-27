@@ -7,4 +7,4 @@ const makeName = (url) => {
   return `${formatedName}.html`;
 };
 
-export { makeName };
+export default makeName;
