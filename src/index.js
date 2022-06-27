@@ -11,7 +11,6 @@ const pageLoader = (url, outputPath = process.cwd()) => {
   const requestURL = new URL(url);
   // console.log(url);
   // console.log(outputPath);
-  // console.log(path.resolve(outputPath));
   // console.log(process.cwd());
   const fullOutputPath = path.resolve(outputPath);
   const htmlFileName = makeName(requestURL);
