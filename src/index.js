@@ -87,14 +87,14 @@ const pageLoader = (url, outputPath = process.cwd()) => {
         // console.log(link.fileUrl.toString());
         // console.log(filePath);
         const filelink = (link.fileUrl).toString();
-        console.log(filelink);
-        console.log(filesDirPath);
-        console.log(filePath);
+        // console.log(filelink);
+        // console.log(filesDirPath);
+        // console.log(filePath);
         const promise = fsp.access(filesDirPath)
           .then(() => axios.get(filelink, { responseType: 'arraybuffer' }))
           .then((response) => {
-            console.log(response.data);
-            console.log(filelink);
+            // console.log(response.data);
+            // console.log(filelink);
             fsp.writeFile(filePath, response.data);
           })
           .catch((err) => err.message);
