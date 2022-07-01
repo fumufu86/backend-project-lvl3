@@ -13,7 +13,7 @@ const makeHtmlLocalLinks = (html, requestURL, dirName) => {
   // console.log($('img'));
   // console.log($.html());
   const links = [];
-  const imgs = [...$('img')]
+  [...$('img')]
     .filter((element) => $(element).attr('src'))
     .map((element) => {
       const fileUrl = new URL($(element).attr('src'), requestURL);
@@ -35,22 +35,23 @@ const makeHtmlLocalLinks = (html, requestURL, dirName) => {
 };
 
 const dowloadResurses = (links, dirPath) => {
-  links.map((link) => {
+  const promises = links.map((link) => {
     const filePath = path.join(dirPath, link.fileName);
     // console.log(link.fileUrl.href);
     // console.log(link.fileUrl.toString());
     // console.log(filePath);
     const url = (link.fileUrl).toString();
-    console.log(url);
+    // console.log(url);
     return fsp.access(dirPath)
       .then(() => (axios.get(url, { responseType: 'arraybuffer' })))
       .then((response) => {
-        console.log(response);
-        console.log(url);
+        // console.log(response);
+        // console.log(url);
         fsp.writeFile(filePath, response.data);
       })
       .catch((err) => err.message);
   });
+  return promises;
 };
 const pageLoader = (url, outputPath = process.cwd()) => {
   const requestURL = new URL(url);
@@ -81,25 +82,26 @@ const pageLoader = (url, outputPath = process.cwd()) => {
     ))
     .then(() => {
       // return dowloadResurses(resourseLinks, filesDirPath);
-      const promises = resourseLinks.map((link) => {
-        const filePath = path.join(filesDirPath, link.fileName);
-        // console.log(link.fileUrl.href);
-        // console.log(link.fileUrl.toString());
-        // console.log(filePath);
-        const filelink = (link.fileUrl).toString();
-        // console.log(filelink);
-        // console.log(filesDirPath);
-        // console.log(filePath);
-        const promise = fsp.access(filesDirPath)
-          .then(() => axios.get(filelink, { responseType: 'arraybuffer' }))
-          .then((response) => {
-            // console.log(response.data);
-            // console.log(filelink);
-            fsp.writeFile(filePath, response.data);
-          })
-          .catch((err) => err.message);
-        return promise;
-      });
+      // const promises = resourseLinks.map((link) => {
+      //   const filePath = path.join(filesDirPath, link.fileName);
+      // console.log(link.fileUrl.href);
+      // console.log(link.fileUrl.toString());
+      // console.log(filePath);
+      //   const filelink = (link.fileUrl).toString();
+      // console.log(filelink);
+      // console.log(filesDirPath);
+      // console.log(filePath);
+      //   const promise = fsp.access(filesDirPath)
+      //     .then(() => axios.get(filelink, { responseType: 'arraybuffer' }))
+      //     .then((response) => {
+      // console.log(response.data);
+      // console.log(filelink);
+      //       fsp.writeFile(filePath, response.data);
+      //     })
+      //     .catch((err) => err.message);
+      //   return promise;
+      // });
+      const promises = dowloadResurses(resourseLinks, filesDirPath);
       const promise = Promise.all(promises);
       return promise.then();
     })
