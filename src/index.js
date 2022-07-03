@@ -6,6 +6,11 @@ import cheerio from 'cheerio';
 import { makeName, makeFileName } from './utils.js';
 
 const fsp = fs.promises;
+const tagMap = {
+  img: 'src',
+  link: 'href',
+  script: 'src',
+};
 
 const makeHtmlLocalLinks = (html, requestURL, dirName) => {
   const $ = cheerio.load(html);
@@ -13,20 +18,27 @@ const makeHtmlLocalLinks = (html, requestURL, dirName) => {
   // console.log($('img'));
   // console.log($.html());
   const links = [];
-  [...$('img')]
-    .filter((element) => $(element).attr('src'))
-    .map((element) => {
-      const fileUrl = new URL($(element).attr('src'), requestURL);
-      // console.log(requestURL);
-      // console.log(fileUrl);
-      // console.log(element);
-      return { element, fileUrl };
-    })
-    .map(({ element, fileUrl }) => {
-      const fileName = makeFileName(fileUrl);
-      links.push({ fileName, fileUrl });
-      $(element).attr('src', `${dirName}/${fileName}`);
-      return { element, fileUrl };
+  Object.entries(tagMap)
+    .forEach(([tagName, attrName]) => {
+      [...$(tagName)]
+        .filter((element) => $(element).attr(attrName))
+        .map((element) => {
+          const fileUrl = new URL($(element).attr(attrName), requestURL);
+          // console.log(requestURL);
+          // console.log(fileUrl);
+          // console.log(element);
+          // console.log(fileUrl.origin);
+          // console.log(requestURL.origin);
+          return { element, fileUrl };
+        })
+        // .filter(({ fileUrl }) => fileUrl.origin === requestURL.origin)
+        .filter(({ fileUrl }) => fileUrl.host === requestURL.host)
+        .map(({ element, fileUrl }) => {
+          const fileName = makeFileName(fileUrl);
+          links.push({ fileName, fileUrl });
+          $(element).attr(attrName, `${dirName}/${fileName}`);
+          return { element, fileUrl };
+        });
     });
 
   // console.log(imgs);

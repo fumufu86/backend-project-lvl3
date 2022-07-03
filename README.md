@@ -10,3 +10,6 @@ Step 1 [download html]
 
 Step 2 [download html & image]  
 [![asciicast](https://asciinema.org/a/KYaPyI3M0W3OU3dKOCsTbIhIQ.svg)](https://asciinema.org/a/KYaPyI3M0W3OU3dKOCsTbIhIQ)
+
+Step 3 [download html & all locallink]  
+[![asciicast](https://asciinema.org/a/B6TQVX6EZukiJrrD2a3d9LUEj.svg)](https://asciinema.org/a/B6TQVX6EZukiJrrD2a3d9LUEj)
