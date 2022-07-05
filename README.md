@@ -16,3 +16,6 @@ Step 3 [download html & all locallink]
 
 Step 4 [show debug]
 [![asciicast](https://asciinema.org/a/OI0RSG7O4pE3UiN5is0Wh9e3k.svg)](https://asciinema.org/a/OI0RSG7O4pE3UiN5is0Wh9e3k)
+
+Step 5 [show error]
+[![asciicast](https://asciinema.org/a/iBcPGlo5zXmeFHRzka3I8dYFP.svg)] (https://asciinema.org/a/iBcPGlo5zXmeFHRzka3I8dYFP)
