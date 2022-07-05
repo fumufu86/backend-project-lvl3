@@ -21,18 +21,28 @@ beforeEach(async () => {
   pathTmp = await fsp.mkdtemp(path.join(os.tmpdir(), 'pageLoader-'));
 });
 
-test('test1', async () => {
+test('Successful', async () => {
   // const fullPathExpected = path.resolve('__fixtures__/expected.html');
   // const dataExpectedHtml = await fsp.readFile(fullPathExpected, 'utf-8');
   const htmlExpected = await readFile('__fixtures__', 'expected.html', 'utf8');
   const html = await readFile('__fixtures__', 'page.html', 'utf8');
   const image = await readFile('__fixtures__', 'files/image.png');
+  const style = await readFile('__fixtures__', 'files/style.css');
+  const script = await readFile('__fixtures__', 'files/script.js');
+  const otherPage = await readFile('__fixtures__', 'files/other_page.html');
+
   // console.log(image);
   nock('http://ru.hexlet.io')
     .get('/courses')
     .reply(200, html)
     .get('/assets/professions/nodejs.png')
-    .reply(200, image);
+    .reply(200, image)
+    .get('/assets/application.css')
+    .reply(200, style)
+    .get('/packs/js/runtime.js')
+    .reply(200, script)
+    .get('/courses')
+    .reply(200, otherPage);
 
   await pageLoader('http://ru.hexlet.io/courses', pathTmp);
 
@@ -41,10 +51,16 @@ test('test1', async () => {
   // console.log(pathTmp);
   const htmlDownloaded = await readFile(pathTmp, 'ru-hexlet-io-courses.html', 'utf-8');
   const imageDownloaded = await readFile(pathTmp, 'ru-hexlet-io-courses_files/ru-hexlet-io-assets-professions-nodejs.png');
+  const styleDownloaded = await readFile(pathTmp, 'ru-hexlet-io-courses_files/ru-hexlet-io-assets-application.css');
+  const scriptDownloaded = await readFile(pathTmp, 'ru-hexlet-io-courses_files/ru-hexlet-io-packs-js-runtime.js');
+  const otherPageDownloaded = await readFile(pathTmp, 'ru-hexlet-io-courses_files/ru-hexlet-io-courses.html');
   // console.log('111');
   // console.log(htmlDownloaded);
   expect(htmlDownloaded).toEqual(htmlExpected);
   expect(imageDownloaded).toEqual(image);
+  expect(styleDownloaded).toEqual(style);
+  expect(scriptDownloaded).toEqual(script);
+  expect(otherPageDownloaded).toEqual(otherPage);
 });
 
 test('Error request fail', async () => {

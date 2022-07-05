@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'axios-debug-log';
 import cheerio from 'cheerio';
 import debug from 'debug';
+import Listr from 'listr';
 
 import { makeName, makeFileName } from './utils.js';
 
@@ -58,16 +59,18 @@ const dowloadResurses = (links, dirPath) => {
     // console.log(filePath);
     const url = (link.fileUrl).toString();
     // console.log(url);
-    return fsp.access(dirPath)
-      .then(() => (axios.get(url, { responseType: 'arraybuffer' })))
-      .then((response) => {
-        // console.log(response);
-        // console.log(url);
-        fsp.writeFile(filePath, response.data);
-      })
-      .catch((err) => err.message);
+    return {
+      title: `Downloading - ${url}`,
+      task: (ctx, task) => (axios.get(url, { responseType: 'arraybuffer' }))
+        .then((response) => {
+          // console.log(response);
+          // console.log(url);
+          fsp.writeFile(filePath, response.data);
+        })
+        .catch((err) => task.skip(err.message)),
+    };
   });
-  return promises;
+  return new Listr(promises, { concurrent: true });
 };
 const pageLoader = (url, outputPath = process.cwd()) => {
   const requestURL = new URL(url);
@@ -123,10 +126,12 @@ const pageLoader = (url, outputPath = process.cwd()) => {
       //     .catch((err) => err.message);
       //   return promise;
       // });
-      const promises = dowloadResurses(resourseLinks, filesDirPath);
-      const promise = Promise.all(promises);
+      // const promises = dowloadResurses(resourseLinks, filesDirPath);
+      // const promise = Promise.all(promises);
+      const tasks = dowloadResurses(resourseLinks, filesDirPath);
       log('downloading files into - ', filesDirPath);
-      return promise.then();
+      // return promise.then();
+      return tasks.run();
     })
     .then(() => ({ fullOutputPath }));
 };
