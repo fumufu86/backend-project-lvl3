@@ -12,7 +12,7 @@ test:
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
 debug:
-	DEBUG=page-loader,axios,nock.* npm test
+	DEBUG=page-loader npm test
 debug_axios:
 	DEBUG=axios npm test
 debug_nock:

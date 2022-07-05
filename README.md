@@ -13,3 +13,6 @@ Step 2 [download html & image]
 
 Step 3 [download html & all locallink]  
 [![asciicast](https://asciinema.org/a/B6TQVX6EZukiJrrD2a3d9LUEj.svg)](https://asciinema.org/a/B6TQVX6EZukiJrrD2a3d9LUEj)
+
+Step 4 [show debug]
+[![asciicast](https://asciinema.org/a/OI0RSG7O4pE3UiN5is0Wh9e3k.svg)](https://asciinema.org/a/OI0RSG7O4pE3UiN5is0Wh9e3k)
