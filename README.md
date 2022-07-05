@@ -19,3 +19,6 @@ Step 4 [show debug]
 
 Step 5 [show error]
 [![asciicast](https://asciinema.org/a/iBcPGlo5zXmeFHRzka3I8dYFP.svg)] (https://asciinema.org/a/iBcPGlo5zXmeFHRzka3I8dYFP)
+
+Step 6 [show work]
+[![asciicast](https://asciinema.org/a/2f3DtOsqXvODrrsAowS5uhIq3.svg)] (https://asciinema.org/a/2f3DtOsqXvODrrsAowS5uhIq3)
