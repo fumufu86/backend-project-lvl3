@@ -1,9 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
+import 'axios-debug-log';
 import cheerio from 'cheerio';
+import debug from 'debug';
 
 import { makeName, makeFileName } from './utils.js';
+
+const log = debug('page-loader');
 
 const fsp = fs.promises;
 const tagMap = {
@@ -78,9 +82,14 @@ const pageLoader = (url, outputPath = process.cwd()) => {
   const filesDirPath = path.join(fullOutputPath, filesDirName);
   let resourseLinks;
   return fsp.access(fullOutputPath)
-    .then(() => axios.get(url))
+    .then(() => {
+      log('request - ', url);
+      return axios.get(url);
+    })
     .then((page) => {
+      log('response code - ', page.status);
       const { html, links } = makeHtmlLocalLinks(page.data, requestURL, filesDirName);
+      log('write html into - ', htmlFilePath);
       // console.log(html);
       // console.log(htmlFilePath);
       // console.log(page.data);
@@ -88,10 +97,11 @@ const pageLoader = (url, outputPath = process.cwd()) => {
       // console.log(resourseLinks);
       return fsp.writeFile(htmlFilePath, html);
     })
-    .then(() => (
+    .then(() => {
       // console.log(filesDirPath);
-      fsp.mkdir(filesDirPath)
-    ))
+      log('create directory for files - ', filesDirPath);
+      return fsp.mkdir(filesDirPath);
+    })
     .then(() => {
       // return dowloadResurses(resourseLinks, filesDirPath);
       // const promises = resourseLinks.map((link) => {
@@ -115,6 +125,7 @@ const pageLoader = (url, outputPath = process.cwd()) => {
       // });
       const promises = dowloadResurses(resourseLinks, filesDirPath);
       const promise = Promise.all(promises);
+      log('downloading files into - ', filesDirPath);
       return promise.then();
     })
     .then(() => ({ fullOutputPath }));

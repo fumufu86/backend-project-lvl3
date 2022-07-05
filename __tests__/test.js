@@ -46,3 +46,19 @@ test('test1', async () => {
   expect(htmlDownloaded).toEqual(htmlExpected);
   expect(imageDownloaded).toEqual(image);
 });
+
+test('Error request fail', async () => {
+  nock('http://ru.hexlet.io')
+    .get('/not-exist-page')
+    .reply(404, '');
+
+  await expect(pageLoader('http://ru.hexlet.io/not-exist-page', pathTmp)).rejects.toThrow('status code 404');
+});
+
+test('Error nonExistOutputPath', async () => {
+  nock('http://ru.hexlet.io')
+    .get('/courses')
+    .reply(200, 'data');
+
+  await expect(pageLoader('http://ru.hexlet.io/courses', 'notExixstPath')).rejects.toThrow('no such file or directory');
+});
